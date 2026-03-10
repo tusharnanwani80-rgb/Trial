@@ -1,287 +1,1105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>TTC Wardha – Tushar Tuition Classes</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --coral: #ff6b6b;
+    --coral-dark: #e85555;
+    --coral-light: #fff0f0;
+    --sky: #4da6ff;
+    --sky-light: #e8f4ff;
+    --amber: #ffb347;
+    --mint: #5de0b5;
+    --purple: #a78bfa;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --white: #ffffff;
+    --bg: #fdf6f0;
+    --card-bg: #ffffff;
+    --radius: 20px;
+  }
 
-body{
-font-family:'Nunito',sans-serif;
-margin:0;
-background:#fdf6f0;
-color:#1a1a2e;
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* NAV */
+  html { scroll-behavior: smooth; }
 
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 40px;
-background:white;
-box-shadow:0 4px 20px rgba(0,0,0,0.05);
-position:sticky;
-top:0;
-}
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
 
-nav a{
-text-decoration:none;
-margin:0 10px;
-font-weight:700;
-color:#ff6b6b;
-}
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--coral); border-radius: 10px; }
 
-.logo{
-display:flex;
-align-items:center;
-gap:10px;
-font-weight:800;
-font-size:18px;
-}
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,107,107,0.12);
+    padding: 14px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 30px rgba(255,107,107,0.12); }
+  .nav-brand { display: flex; align-items: center; gap: 12px; }
+  .nav-brand img { width: 44px; height: 44px; border-radius: 12px; object-fit: contain; }
+  .nav-brand-text { font-weight: 800; font-size: 1.1rem; color: var(--coral); letter-spacing: -0.3px; }
+  .nav-brand-sub { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
+  .nav-links { display: flex; gap: 8px; }
+  .nav-links a {
+    text-decoration: none; font-weight: 700; font-size: 0.88rem;
+    color: var(--text); padding: 8px 16px; border-radius: 40px;
+    transition: all .25s;
+  }
+  .nav-links a:hover { background: var(--coral-light); color: var(--coral); }
+  .nav-cta {
+    background: var(--coral); color: white !important;
+    padding: 8px 20px !important; border-radius: 40px;
+    transition: all .25s !important;
+  }
+  .nav-cta:hover { background: var(--coral-dark) !important; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,107,107,0.35) !important; }
 
-.logo img{
-width:40px;
-}
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 100px 40px 60px;
+  }
+  .hero-blob {
+    position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.22; pointer-events: none;
+  }
+  .blob-1 { width: 520px; height: 520px; background: var(--coral); top: -100px; right: -80px; animation: blob-drift 8s ease-in-out infinite alternate; }
+  .blob-2 { width: 380px; height: 380px; background: var(--sky); bottom: -80px; left: -60px; animation: blob-drift 10s ease-in-out infinite alternate-reverse; }
+  .blob-3 { width: 260px; height: 260px; background: var(--amber); top: 40%; left: 40%; animation: blob-drift 12s ease-in-out infinite alternate; }
 
-/* HERO */
+  @keyframes blob-drift {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(30px, 20px) scale(1.08); }
+  }
 
-.hero{
-padding:100px 20px;
-text-align:center;
-background:linear-gradient(135deg,#fff0f0,#e8f4ff);
-}
+  .hero-inner {
+    max-width: 1200px; margin: auto; position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  }
 
-.hero h1{
-font-size:42px;
-margin-bottom:10px;
-}
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--coral-light); color: var(--coral);
+    font-weight: 800; font-size: 0.8rem; padding: 6px 16px;
+    border-radius: 40px; border: 1.5px solid rgba(255,107,107,0.2);
+    margin-bottom: 20px;
+    animation: fade-up .7s ease both;
+  }
+  .badge-dot { width: 7px; height: 7px; background: var(--coral); border-radius: 50%; animation: pulse-dot 1.5s infinite; }
+  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
 
-.hero p{
-color:#555;
-font-size:18px;
-}
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 900; line-height: 1.1;
+    color: var(--text);
+    animation: fade-up .8s ease .1s both;
+  }
+  .hero-title span { color: var(--coral); position: relative; display: inline-block; }
+  .hero-title span::after {
+    content: ''; position: absolute; bottom: 2px; left: 0; right: 0;
+    height: 10px; background: rgba(255,107,107,0.18); border-radius: 4px; z-index: -1;
+  }
 
-/* SECTIONS */
+  .hero-desc {
+    font-size: 1.05rem; color: var(--muted); line-height: 1.75;
+    margin: 20px 0 32px;
+    animation: fade-up .8s ease .2s both;
+  }
 
-.section{
-padding:80px 20px;
-max-width:1100px;
-margin:auto;
-}
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; animation: fade-up .8s ease .3s both; }
+  .btn-primary {
+    background: var(--coral); color: white;
+    padding: 14px 28px; border-radius: 50px; border: none;
+    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: all .25s; box-shadow: 0 8px 24px rgba(255,107,107,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(255,107,107,0.4); }
+  .btn-secondary {
+    background: white; color: var(--text);
+    padding: 14px 28px; border-radius: 50px; border: 2px solid #eee;
+    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+    cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: all .25s;
+  }
+  .btn-secondary:hover { border-color: var(--coral); color: var(--coral); transform: translateY(-3px); }
 
-.section h2{
-text-align:center;
-margin-bottom:40px;
-color:#ff6b6b;
-}
+  .hero-stats {
+    display: flex; gap: 28px; margin-top: 36px;
+    animation: fade-up .8s ease .4s both;
+  }
+  .stat { text-align: left; }
+  .stat-num { font-size: 1.8rem; font-weight: 900; color: var(--text); }
+  .stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
 
-/* FAQ */
+  .hero-visual {
+    animation: fade-left .9s ease .2s both;
+    position: relative;
+  }
+  .hero-card-stack { position: relative; height: 400px; }
+  .hero-card {
+    position: absolute; border-radius: var(--radius); padding: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    animation: float 5s ease-in-out infinite;
+  }
+  .hc-main {
+    background: white; width: 280px; top: 50px; left: 40px;
+    animation-delay: 0s;
+  }
+  .hc-2 {
+    background: var(--coral); color: white; width: 220px; top: 0; right: 0;
+    animation-delay: 1.5s;
+  }
+  .hc-3 {
+    background: var(--sky); color: white; width: 200px; bottom: 40px; right: 20px;
+    animation-delay: 3s;
+  }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+  .hc-icon { font-size: 2rem; margin-bottom: 10px; }
+  .hc-label { font-weight: 800; font-size: 0.95rem; margin-bottom: 4px; }
+  .hc-sub { font-size: 0.78rem; opacity: 0.8; }
 
-.faq{
-max-width:800px;
-margin:auto;
-}
+  @keyframes fade-up { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fade-left { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:translateX(0)} }
 
-.faq-item{
-background:white;
-padding:20px;
-margin-bottom:15px;
-border-radius:12px;
-box-shadow:0 4px 15px rgba(0,0,0,0.05);
-}
+  /* ─── SECTIONS ─── */
+  section { padding: 80px 40px; }
+  .section-inner { max-width: 1100px; margin: auto; }
+  .section-tag {
+    display: inline-block; background: var(--coral-light); color: var(--coral);
+    font-size: 0.78rem; font-weight: 800; padding: 5px 14px;
+    border-radius: 40px; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 900; color: var(--text); margin-bottom: 12px; line-height: 1.2;
+  }
+  .section-desc { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 560px; }
 
-.faq-item h3{
-margin-bottom:8px;
-color:#ff6b6b;
-}
+  /* ─── SUBJECTS ─── */
+  #subjects { background: white; }
+  .subjects-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 14px; margin-top: 40px;
+  }
+  .subject-pill {
+    background: var(--bg); border-radius: 14px; padding: 18px 14px;
+    text-align: center; font-weight: 800; font-size: 0.9rem; color: var(--text);
+    transition: all .25s; cursor: default; border: 2px solid transparent;
+    transform: translateY(20px); opacity: 0;
+  }
+  .subject-pill.visible { animation: pill-in .5s ease forwards; }
+  .subject-pill:hover { border-color: var(--coral); color: var(--coral); transform: translateY(-4px) !important; background: var(--coral-light); }
+  .subject-pill .pill-icon { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+  @keyframes pill-in { to{opacity:1;transform:translateY(0)} }
 
-/* FORM */
+  /* ─── TEACHERS ─── */
+  #teachers { background: var(--bg); }
+  .teachers-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 24px; margin-top: 44px;
+  }
+  .teacher-card {
+    background: white; border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+    transition: all .3s; border: 2px solid transparent;
+    transform: translateY(30px); opacity: 0;
+  }
+  .teacher-card.visible { animation: fade-up-card .6s ease forwards; }
+  .teacher-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.13); border-color: var(--coral-light); }
+  @keyframes fade-up-card { to{opacity:1;transform:translateY(0)} }
+  .teacher-banner { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 3.2rem; position: relative; }
+  .tc-1 .teacher-banner { background: linear-gradient(135deg, #ff9a9e, #ff6b6b); }
+  .tc-2 .teacher-banner { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+  .tc-3 .teacher-banner { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+  .teacher-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    border: 4px solid white; position: absolute; bottom: -28px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; font-weight: 900; color: white;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  .tc-1 .teacher-avatar { background: var(--coral); }
+  .tc-2 .teacher-avatar { background: var(--purple); }
+  .tc-3 .teacher-avatar { background: var(--mint); }
+  .teacher-body { padding: 44px 24px 28px; text-align: center; }
+  .teacher-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 2px; }
+  .teacher-role { font-size: 0.8rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 16px; }
+  .teacher-subjects { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .subj-tag {
+    padding: 5px 12px; border-radius: 30px; font-size: 0.78rem; font-weight: 800;
+    border: 1.5px solid;
+  }
+  .tc-1 .subj-tag { background: #fff0f0; color: var(--coral); border-color: rgba(255,107,107,0.25); }
+  .tc-2 .subj-tag { background: #f3f0ff; color: var(--purple); border-color: rgba(167,139,250,0.3); }
+  .tc-3 .subj-tag { background: #f0fff8; color: #10b981; border-color: rgba(93,224,181,0.35); }
 
-form{
-max-width:600px;
-margin:auto;
-display:flex;
-flex-direction:column;
-gap:15px;
-}
+  /* ─── CLASSES ─── */
+  #classes { background: white; }
+  .class-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; margin-top: 36px; scrollbar-width: none; }
+  .class-scroll::-webkit-scrollbar { display: none; }
+  .class-chip {
+    flex-shrink: 0; background: var(--bg); border-radius: 14px; padding: 18px 22px;
+    text-align: center; min-width: 100px; border: 2px solid transparent; cursor: default;
+    transition: all .25s;
+  }
+  .class-chip:hover { border-color: var(--sky); background: var(--sky-light); transform: translateY(-4px); }
+  .class-chip .chip-num { font-size: 1.7rem; font-weight: 900; color: var(--text); }
+  .class-chip .chip-label { font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase; margin-top: 2px; }
 
-input,textarea{
-padding:12px;
-border-radius:8px;
-border:1px solid #ddd;
-font-size:15px;
-}
+  .info-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 40px; }
+  .info-stat-card {
+    background: white; border-radius: 16px; padding: 24px 20px;
+    text-align: center; border: 2px solid #f0ece8;
+    transition: all .25s; cursor: default;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .info-stat-card:hover { border-color: var(--coral); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(255,107,107,0.12); }
+  .isc-icon { font-size: 1.9rem; margin-bottom: 10px; display: block; }
+  .isc-value { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .isc-label { font-size: 0.76rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .6px; }
 
-button{
-padding:14px;
-border:none;
-background:#ff6b6b;
-color:white;
-font-size:16px;
-border-radius:10px;
-cursor:pointer;
-}
+  /* ─── SCROLL HERO (device mockup) ─── */
+  #preview { background: var(--bg); text-align: center; }
+  .scroll-device-wrap {
+    perspective: 1200px; margin-top: 50px;
+    animation: device-enter 1s ease .3s both;
+  }
+  @keyframes device-enter { from{opacity:0;transform:perspective(1200px) rotateX(25deg) translateY(40px)} to{opacity:1;transform:perspective(1200px) rotateX(0deg) translateY(0)} }
+  .device {
+    max-width: 860px; margin: auto;
+    border-radius: 20px; overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.18);
+    border: 6px solid #1a1a2e;
+    transform: perspective(1200px) rotateX(8deg);
+    transition: transform .5s ease;
+  }
+  .device:hover { transform: perspective(1200px) rotateX(0deg); }
+  .device-inner {
+    background: linear-gradient(135deg, #fff0f0 0%, #e8f4ff 50%, #f3f0ff 100%);
+    padding: 50px 40px; text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;
+  }
+  .device-text h2 { font-family: 'Playfair Display',serif; font-size: 2rem; font-weight: 900; color: var(--text); margin-bottom: 12px; }
+  .device-text p { color: var(--muted); line-height: 1.7; font-size: 0.95rem; }
+  .device-cards { display: flex; flex-direction: column; gap: 14px; }
+  .dc { background: white; border-radius: 14px; padding: 16px 20px; display: flex; gap: 14px; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+  .dc-icon { font-size: 1.6rem; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .dc-i1 { background: #fff0f0; }
+  .dc-i2 { background: #e8f4ff; }
+  .dc-i3 { background: #f0fff8; }
+  .dc-title { font-weight: 800; font-size: 0.9rem; }
+  .dc-sub { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
 
-button:hover{
-background:#e85555;
-}
+  /* ─── FAQ ─── */
+  #faq { background: white; }
+  .faq-list { margin-top: 40px; max-width: 720px; display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    border: 2px solid #f0f0f0; border-radius: 14px; overflow: hidden;
+    transition: border-color .25s;
+  }
+  .faq-item.open { border-color: var(--coral); }
+  .faq-q {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px; cursor: pointer; font-weight: 800; font-size: 0.98rem;
+    background: white; user-select: none; transition: color .25s;
+  }
+  .faq-item.open .faq-q { color: var(--coral); }
+  .faq-chevron { font-size: 1.1rem; transition: transform .3s; }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s;
+    padding: 0 22px; font-size: 0.92rem; color: var(--muted); line-height: 1.7;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 22px 18px; }
 
-/* FOOTER */
+  /* ─── CONTACT ─── */
+  #contact { background: var(--bg); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 44px; align-items: start; }
+  .contact-info { display: flex; flex-direction: column; gap: 20px; }
+  .ci-item { display: flex; gap: 14px; align-items: flex-start; }
+  .ci-icon { width: 46px; height: 46px; background: var(--coral-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+  .ci-text strong { font-weight: 800; display: block; margin-bottom: 2px; }
+  .ci-text span { font-size: 0.88rem; color: var(--muted); }
 
-footer{
-text-align:center;
-padding:30px;
-background:white;
-margin-top:60px;
-font-size:14px;
-color:#777;
-}
+  .contact-form { background: white; border-radius: var(--radius); padding: 36px; box-shadow: 0 10px 40px rgba(0,0,0,0.07); }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { font-weight: 800; font-size: 0.85rem; display: block; margin-bottom: 6px; color: var(--text); }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 13px 16px;
+    border: 2px solid #e2e8f0; border-radius: 10px;
+    font-family: 'Nunito', sans-serif; font-size: 0.95rem; color: var(--text);
+    background: #ffffff; outline: none; transition: border-color .25s, box-shadow .25s;
+    appearance: none; -webkit-appearance: none;
+    display: block;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: #b0b8c4; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--coral); background: white;
+    box-shadow: 0 0 0 3px rgba(255,107,107,0.12);
+  }
+  .form-group textarea { height: 110px; resize: vertical; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .submit-btn {
+    width: 100%; background: var(--coral); color: white;
+    border: none; padding: 14px; border-radius: 10px;
+    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+    cursor: pointer; transition: all .25s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .submit-btn:hover { background: var(--coral-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,107,107,0.35); }
 
+  /* ─── REVIEWS ─── */
+  #reviews { background: white; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--text); color: rgba(255,255,255,0.7);
+    padding: 50px 40px 30px;
+  }
+  .footer-inner { max-width: 1100px; margin: auto; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 36px; }
+  .footer-brand img { width: 48px; height: 48px; border-radius: 14px; margin-bottom: 14px; object-fit: contain; }
+  .footer-brand h3 { color: white; font-size: 1.1rem; font-weight: 900; margin-bottom: 8px; }
+  .footer-brand p { font-size: 0.85rem; line-height: 1.7; }
+  .footer-col h4 { color: white; font-weight: 800; margin-bottom: 14px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: .5px; }
+  .footer-col a { display: block; font-size: 0.85rem; color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 8px; transition: color .2s; }
+  .footer-col a:hover { color: var(--coral); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
+  .footer-heart { color: var(--coral); }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 12px 20px; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { display: none; }
+    section { padding: 60px 20px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 24px; }
+    .device-inner { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .teachers-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── FAQ TIMING GRID ─── */
+  .faq-timing-grid {
+    display: flex; flex-direction: row;
+    gap: 12px; margin-top: 10px;
+    overflow-x: auto; padding-bottom: 8px;
+    scrollbar-width: thin; scrollbar-color: var(--coral) #f0ece8;
+    -webkit-overflow-scrolling: touch;
+  }
+  .faq-timing-grid::-webkit-scrollbar { height: 4px; }
+  .faq-timing-grid::-webkit-scrollbar-track { background: #f0ece8; border-radius: 10px; }
+  .faq-timing-grid::-webkit-scrollbar-thumb { background: var(--coral); border-radius: 10px; }
+  .faq-batch {
+    background: var(--bg); border-radius: 12px; padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem;
+    flex-shrink: 0; min-width: 180px; border: 2px solid #f0ece8;
+    transition: border-color .25s, transform .25s;
+  }
+  .faq-batch:hover { border-color: var(--coral); transform: translateY(-3px); }
+  .faq-batch-icon { font-size: 1.5rem; margin-bottom: 4px; }
+  .faq-batch strong { color: var(--text); font-size: 0.9rem; margin-bottom: 2px; }
+  .faq-batch span { color: var(--muted); }
+  .faq-batch-note { color: var(--coral) !important; font-weight: 700; font-size: 0.78rem !important; margin-top: 6px; background: var(--coral-light); padding: 3px 8px; border-radius: 20px; display: inline-block; }
+
+  /* ─── REVIEW PLACEHOLDERS ─── */
+  .review-card-placeholder {
+    background: var(--bg); border-radius: 16px; padding: 24px;
+    max-width: 280px; flex: 1 1 220px; border: 2px solid #f0ece8;
+    transition: transform .25s, border-color .25s;
+  }
+  .review-card-placeholder:hover { transform: translateY(-4px); border-color: var(--coral); }
+  .rcp-stars { font-size: 1.1rem; margin-bottom: 10px; }
+  .rcp-text { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin-bottom: 10px; font-style: italic; }
+  .rcp-name { font-weight: 800; font-size: 0.82rem; color: var(--text); }
+
+  /* ─── INTERSECTION OBSERVER RESETS ─── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
-
 </head>
-
 <body>
 
-<nav>
-
-<div class="logo">
-<img src="https://i.imgur.com/0y0y0y0.png">
-TTC Wardha
-</div>
-
-<div>
-<a href="#faq">FAQ</a>
-<a href="#reviews">Reviews</a>
-<a href="#contact">Contact</a>
-</div>
-
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-brand">
+    <img src="https://i.ibb.co/dsBdtCwK/Ttc-logo.png" alt="TTC Logo" onerror="this.style.display='none'">
+    <div>
+      <div class="nav-brand-text">TTC Wardha</div>
+      <div class="nav-brand-sub">Tushar Tuition Classes</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#subjects">Subjects</a>
+    <a href="#teachers">Teachers</a>
+    <a href="#classes">Classes</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact" class="nav-cta">Enroll Now</a>
+  </div>
 </nav>
 
-<section class="hero">
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-blob blob-3"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Now Enrolling • Classes 1–9
+      </div>
+      <h1 class="hero-title">
+        Learn Better,<br>
+        Grow <span>Smarter</span>
+      </h1>
+      <p class="hero-desc">
+        Tushar Tuition Classes in Wardha offers quality, personalized coaching for Classes 1–9 in Maths, Science, Languages, and more. Small batches, big results.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">📝 Enroll Today</a>
+        <a href="#teachers" class="btn-secondary">👩‍🏫 Meet Our Teachers</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">9+</div>
+          <div class="stat-label">Subjects</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4–8 PM</div>
+          <div class="stat-label">Daily Classes</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">Wardha</div>
+          <div class="stat-label">Location</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="hero-card hc-main">
+          <div class="hc-icon">📖</div>
+          <div class="hc-label">Digital Design Thinking</div>
+          <div class="hc-sub">Small Batches • Expert Teachers</div>
+        </div>
+        <div class="hero-card hc-2">
+          <div class="hc-icon">🏆</div>
+          <div class="hc-label">Top Results</div>
+          <div class="hc-sub">Personalized Attention</div>
+        </div>
+        <div class="hero-card hc-3">
+          <div class="hc-icon">⏰</div>
+          <div class="hc-label">4 PM – 8 PM</div>
+          <div class="hc-sub">Mon to Sat</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<h1>Tushar Tuition Classes</h1>
+<!-- SUBJECTS -->
+<section id="subjects">
+  <div class="section-inner">
+    <div class="section-tag">📚 What We Teach</div>
+    <h2 class="section-title">Subjects We Cover</h2>
+    <p class="section-desc">Comprehensive coaching across all core subjects to help your child excel.</p>
+    <div class="subjects-grid">
+      <div class="subject-pill" style="animation-delay:0.05s"><span class="pill-icon">🔢</span>Maths</div>
+      <div class="subject-pill" style="animation-delay:0.1s"><span class="pill-icon">✏️</span>English</div>
+      <div class="subject-pill" style="animation-delay:0.15s"><span class="pill-icon">🔬</span>Science</div>
+      <div class="subject-pill" style="animation-delay:0.2s"><span class="pill-icon">⚗️</span>Chemistry</div>
+      <div class="subject-pill" style="animation-delay:0.25s"><span class="pill-icon">⚡</span>Physics</div>
+      <div class="subject-pill" style="animation-delay:0.3s"><span class="pill-icon">🧬</span>Biology</div>
+      <div class="subject-pill" style="animation-delay:0.35s"><span class="pill-icon">🌏</span>Geography</div>
+      <div class="subject-pill" style="animation-delay:0.4s"><span class="pill-icon">🏛️</span>History</div>
+      <div class="subject-pill" style="animation-delay:0.45s"><span class="pill-icon">⚖️</span>Civics</div>
+      <div class="subject-pill" style="animation-delay:0.5s"><span class="pill-icon">💹</span>Economics</div>
+      <div class="subject-pill" style="animation-delay:0.55s"><span class="pill-icon">🔤</span>Hindi</div>
+      <div class="subject-pill" style="animation-delay:0.6s"><span class="pill-icon">📝</span>Marathi</div>
+      <div class="subject-pill" style="animation-delay:0.65s"><span class="pill-icon">🌟</span>G.K.</div>
+      <div class="subject-pill" style="animation-delay:0.7s"><span class="pill-icon">💻</span>M.S. / Computer</div>
+      <div class="subject-pill" style="animation-delay:0.75s"><span class="pill-icon">🗺️</span>S.S.T.</div>
+    </div>
+  </div>
+</section>
 
-<p>Wardha's trusted learning space where studies meet understanding.</p>
+<!-- TEACHERS -->
+<section id="teachers">
+  <div class="section-inner">
+    <div class="section-tag">👩‍🏫 Our Team</div>
+    <h2 class="section-title">Meet Your Educators</h2>
+    <p class="section-desc">Dedicated, qualified teachers committed to every student's success.</p>
+    <div class="teachers-grid">
 
+      <div class="teacher-card tc-1">
+        <div class="teacher-banner">
+          <div class="teacher-avatar">T</div>
+        </div>
+        <div class="teacher-body">
+          <div class="teacher-name">Tushar Nanwani</div>
+          <div class="teacher-role">Founder & Head Teacher</div>
+          <div class="teacher-subjects">
+            <span class="subj-tag">✏️ English</span>
+            <span class="subj-tag">🔢 Maths</span>
+            <span class="subj-tag">💹 Economics</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-card tc-2">
+        <div class="teacher-banner">
+          <div class="teacher-avatar">M</div>
+        </div>
+        <div class="teacher-body">
+          <div class="teacher-name">Mahek Nanwani</div>
+          <div class="teacher-role">Science & Social Studies</div>
+          <div class="teacher-subjects">
+            <span class="subj-tag">⚡ Physics</span>
+            <span class="subj-tag">⚗️ Chemistry</span>
+            <span class="subj-tag">🧬 Biology</span>
+            <span class="subj-tag">🏛️ History</span>
+            <span class="subj-tag">⚖️ Civics</span>
+            <span class="subj-tag">🌏 Geography</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="teacher-card tc-3">
+        <div class="teacher-banner">
+          <div class="teacher-avatar">K</div>
+        </div>
+        <div class="teacher-body">
+          <div class="teacher-name">Kajal Nanwani</div>
+          <div class="teacher-role">Languages & Technology</div>
+          <div class="teacher-subjects">
+            <span class="subj-tag">🔤 Hindi</span>
+            <span class="subj-tag">📝 Marathi</span>
+            <span class="subj-tag">🌟 G.K.</span>
+            <span class="subj-tag">💻 M.S.</span>
+            <span class="subj-tag">🖥️ Computer</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CLASSES & INFO -->
+<section id="classes">
+  <div class="section-inner">
+    <div class="section-tag">🎒 Eligibility</div>
+    <h2 class="section-title">Classes We Serve</h2>
+    <p class="section-desc">We welcome students from Class 1st through Class 9th.</p>
+    <div class="class-scroll">
+      <div class="class-chip"><div class="chip-num">1<sup>st</sup></div><div class="chip-label">Class</div></div>
+      <div class="class-chip"><div class="chip-num">2<sup>nd</sup></div><div class="chip-label">Class</div></div>
+      <div class="class-chip"><div class="chip-num">3<sup>rd</sup></div><div class="chip-label">Class</div></div>
+      <div class="class-chip"><div class="chip-num">4<sup>th</sup></div><div class="chip-label">Class</div></div>
+      <div class="class-chip"><div class="chip-num">5<sup>th</sup></div><div class="chip-label">Class</div></div>
+      <div class="class-chip"><div class="chip-num">6<sup>th</sup></div><div class="chip-label">Class</div></div>
+      <div class="class-chip"><div class="chip-num">7<sup>th</sup></div><div class="chip-label">Class</div></div>
+      <div class="class-chip"><div class="chip-num">8<sup>th</sup></div><div class="chip-label">Class</div></div>
+      <div class="class-chip"><div class="chip-num">9<sup>th</sup></div><div class="chip-label">Class</div></div>
+    </div>
+    <div class="info-cards reveal">
+      <div class="info-stat-card">
+        <div class="isc-icon">⏰</div>
+        <div class="isc-value">4 PM – 8 PM</div>
+        <div class="isc-label">Afternoon Timings</div>
+      </div>
+      <div class="info-stat-card">
+        <div class="isc-icon">📍</div>
+        <div class="isc-value">Wardha</div>
+        <div class="isc-label">Maharashtra, India</div>
+      </div>
+      <div class="info-stat-card">
+        <div class="isc-icon">🏫</div>
+        <div class="isc-value">STATE · CBSE · ICSE</div>
+        <div class="isc-label">Boards Covered</div>
+      </div>
+      <div class="info-stat-card">
+        <div class="isc-icon">📚</div>
+        <div class="isc-value">1st – 9th</div>
+        <div class="isc-label">Standards Covered</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCROLL PREVIEW SECTION -->
+<section id="preview">
+  <div class="section-inner">
+    <div class="section-tag">✨ Why TTC?</div>
+    <h2 class="section-title">Everything Your Child Needs</h2>
+    <p class="section-desc" style="margin:auto; text-align:center;">A nurturing environment where every student gets the attention and guidance to shine.</p>
+    <div class="scroll-device-wrap reveal">
+      <div class="device">
+        <div class="device-inner">
+          <div class="device-text">
+            <h2>Learning made<br>personal & fun</h2>
+            <p>At TTC Wardha, we believe every child learns differently. Our teachers adapt their style to match each student's pace and learning needs.</p>
+          </div>
+          <div class="device-cards">
+            <div class="dc">
+              <div class="dc-icon dc-i1">📊</div>
+              <div>
+                <div class="dc-title">Regular Progress Tests</div>
+                <div class="dc-sub">Track improvement every week</div>
+              </div>
+            </div>
+            <div class="dc">
+              <div class="dc-icon dc-i2">📞</div>
+              <div>
+                <div class="dc-title">Parent Updates</div>
+                <div class="dc-sub">Stay informed about your child</div>
+              </div>
+            </div>
+            <div class="dc">
+              <div class="dc-icon dc-i3">🏅</div>
+              <div>
+                <div class="dc-title">Holistic Learning</div>
+                <div class="dc-sub">Academics + life skills</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="section-tag">❓ FAQ</div>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="faq-list">
 
-<section class="section" id="faq">
+      <div class="faq-item">
+        <div class="faq-q">Which classes do you teach? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">We teach students from Class 1st to Class 9th across all major boards.</div>
+      </div>
 
-<h2>Guide / Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="faq-q">Which subjects are covered? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">We cover Maths, English, Science (Physics, Chemistry, Biology), Social Studies (History, Civics, Geography), Economics, Hindi, Marathi, G.K., M.S., and Computer.</div>
+      </div>
 
-<div class="faq">
+      <div class="faq-item">
+        <div class="faq-q">⏰ What are the tuition timings? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">
+          <div class="faq-timing-grid">
+            <div class="faq-batch">
+              <span class="faq-batch-icon">🌅</span>
+              <strong>Morning Batch</strong>
+              <span>6:00 AM Onwards</span>
+              <span class="faq-batch-note">📌 Exam period only</span>
+            </div>
+            <div class="faq-batch">
+              <span class="faq-batch-icon">☀️</span>
+              <strong>Noon Batch</strong>
+              <span>1:00 PM – 3:00 PM</span>
+              <span class="faq-batch-note">📌 Exam period only</span>
+            </div>
+            <div class="faq-batch">
+              <span class="faq-batch-icon">🌤️</span>
+              <strong>Afternoon Batch</strong>
+              <span>4:00–4:30 PM to 6:00–6:30 PM</span>
+              <span>5:00 PM – 8:00 PM</span>
+            </div>
+          </div>
+          <p style="margin-top:10px;font-size:0.82rem;color:var(--coral);font-weight:700;">⚠️ Note: Morning &amp; Noon batches are available during exam period only.</p>
+        </div>
+      </div>
 
-<div class="faq-item">
-<h3>Tuition Timings</h3>
-<p>
-Morning Batch : 6:00 AM onwards<br>
-Noon Batch : 1:00 PM – 3:00 PM<br>
-Afternoon Batch : 4:00–4:30 PM – 6:00–6:30 PM<br>
-Evening Batch : 5:00 PM – 8:00 PM<br><br>
+      <div class="faq-item">
+        <div class="faq-q">How can I enroll my child? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">You can fill out the contact form below, call us, or visit our tuition center in Wardha directly to enroll.</div>
+      </div>
 
-<b>Note:</b> Morning and Noon batches are only available during exam period.
-</p>
-</div>
+      <div class="faq-item">
+        <div class="faq-q">📝 What about tests? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">Weekly tests are conducted every <strong>Sunday</strong>. Results are updated to parents via <strong>WhatsApp</strong> so you're always in the loop about your child's progress.</div>
+      </div>
 
-<div class="faq-item">
-<h3>What about tests?</h3>
-<p>
-Weekly tests are conducted every Sunday and results are updated to parents via WhatsApp.
-</p>
-</div>
+      <div class="faq-item">
+        <div class="faq-q">🎉 What about Masti and Fun? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">At TTC, we believe a student learns and understands better when they are <strong>not forced or pressurized</strong>. Our teachers teach in a fun, engaging way that keeps students attentive and genuinely interested in learning.</div>
+      </div>
 
-<div class="faq-item">
-<h3>What about Masti and Fun?</h3>
-<p>
-At TTC we believe that a student learns best when they are not forced or pressurized.  
-Teachers teach in a fun way that keeps students attentive and interested.
-</p>
-</div>
+      <div class="faq-item">
+        <div class="faq-q">⚖️ What about strictness? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">Teachers at TTC are <strong>equally strict when necessary</strong>. We maintain the perfect balance between a fun learning environment and discipline to ensure the best outcomes for every student.</div>
+      </div>
 
-<div class="faq-item">
-<h3>What about strictness?</h3>
-<p>
-Teachers at TTC are equally strict when necessary to maintain discipline and learning focus.
-</p>
-</div>
+      <div class="faq-item">
+        <div class="faq-q">📚 What about notes &amp; study materials? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">TTC provides <strong>Notes, Worksheets, Practice Papers,</strong> and <strong>Tests</strong> — all included. Special notes specifically demanded by students are also provided on request.</div>
+      </div>
 
-<div class="faq-item">
-<h3>What about notes?</h3>
-<p>
-Notes, Worksheets, Practice Papers and Tests are provided by TTC.  
-Special notes requested by students are also arranged.
-</p>
-</div>
+      <div class="faq-item">
+        <div class="faq-q">💰 What is the fees structure? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">For fee details, please <strong>contact us</strong> using the form below or <strong>visit us at the centre</strong> directly. We'll be happy to discuss a plan that works for your family.</div>
+      </div>
 
-<div class="faq-item">
-<h3>What about fees structure?</h3>
-<p>
-For fee details please contact us directly or visit the centre.
-</p>
-</div>
+      <div class="faq-item">
+        <div class="faq-q">👩‍🏫 How many teachers are there? <span class="faq-chevron">▾</span></div>
+        <div class="faq-a">TTC has <strong>4 dedicated teachers</strong>, including <strong>1 teacher specifically appointed for asking questions orally</strong> to strengthen students' verbal understanding and confidence.</div>
+      </div>
 
-<div class="faq-item">
-<h3>No. of Teachers?</h3>
-<p>
-4 teachers (including 1 teacher specifically appointed for asking questions orally).
-</p>
-</div>
-
-</div>
-
+    </div>
+  </div>
 </section>
 
 <!-- REVIEWS -->
-
-<section class="section" id="reviews">
-
-<h2>What Parents & Students Say</h2>
-
-<!-- Elfsight Google Reviews -->
-
-<script src="https://elfsightcdn.com/platform.js" async></script>
-
-<div class="elfsight-app-e87fdd6e-f4b8-4807-89b4-ecc80ca4f3c0" data-elfsight-app-lazy></div>
-
+<section id="reviews">
+  <div class="section-inner">
+    <div class="section-tag reveal">⭐ Reviews</div>
+    <h2 class="section-title reveal">What Parents Say</h2>
+    <p class="section-desc reveal" style="margin:auto;">Real feedback from families who trust TTC Wardha.</p>
+    <div class="reveal" style="margin-top:36px; min-height:260px;">
+      <!-- Elfsight Google Reviews Widget -->
+      <script src="https://elfsightcdn.com/platform.js" async></script>
+      <div class="elfsight-app-e87fdd6e-f4b8-4807-89b4-ecc80ca4f3c0" data-elfsight-app-lazy></div>
+      <!-- Fallback cards shown until Elfsight loads -->
+      <div id="review-placeholder" style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:10px;">
+        <div class="review-card-placeholder"><div class="rcp-stars">⭐⭐⭐⭐⭐</div><div class="rcp-text">"Excellent teaching quality. My child's marks improved significantly!"</div><div class="rcp-name">— Parent, Wardha</div></div>
+        <div class="review-card-placeholder"><div class="rcp-stars">⭐⭐⭐⭐⭐</div><div class="rcp-text">"Very dedicated teachers. My daughter loves going to TTC."</div><div class="rcp-name">— Parent, Wardha</div></div>
+        <div class="review-card-placeholder"><div class="rcp-stars">⭐⭐⭐⭐⭐</div><div class="rcp-text">"Best tuition classes in Wardha. Highly recommended!"</div><div class="rcp-name">— Parent, Wardha</div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- CONTACT FORM -->
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-tag">📬 Get In Touch</div>
+    <h2 class="section-title">Enroll Your Child Today</h2>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <p style="color:var(--muted);line-height:1.7;font-size:0.95rem;margin-bottom:10px;">
+          Ready to give your child the academic edge they deserve? Reach out to us and we'll help you get started.
+        </p>
+        <div class="ci-item">
+          <div class="ci-icon">📍</div>
+          <div class="ci-text">
+            <strong>Location</strong>
+            <span>Wardha, Maharashtra, India</span>
+          </div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">⏰</div>
+          <div class="ci-text">
+            <strong>Class Timings</strong>
+            <span>4:00 PM – 8:00 PM, Mon–Sat</span>
+          </div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">🎒</div>
+          <div class="ci-text">
+            <strong>Classes Available</strong>
+            <span>1st Standard to 9th Standard</span>
+          </div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">📚</div>
+          <div class="ci-text">
+            <strong>Subjects</strong>
+            <span>Maths, Science, Languages, Social Studies & More</span>
+          </div>
+        </div>
+      </div>
 
-<section class="section" id="contact">
-
-<h2>Contact Us</h2>
-
-<form action="https://formspree.io/f/mwvrlqqd" method="POST">
-
-<input type="text" name="name" placeholder="Your Name" required>
-
-<input type="email" name="email" placeholder="Your Email" required>
-
-<input type="text" name="phone" placeholder="Phone Number">
-
-<textarea name="message" rows="5" placeholder="Your Message"></textarea>
-
-<button type="submit">Send Message</button>
-
-</form>
-
+      <div class="contact-form reveal">
+        <!-- SUCCESS STATE -->
+        <div id="form-success" style="display:none; text-align:center; padding:40px 20px;">
+          <div style="font-size:3.5rem; margin-bottom:16px;">🎉</div>
+          <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; margin-bottom:10px; color:var(--text);">Message Sent!</h3>
+          <p style="color:var(--muted); line-height:1.7;">We've received your enquiry and will get back to you shortly. Welcome to the TTC family!</p>
+          <button onclick="resetForm()" style="margin-top:20px; background:var(--coral); color:white; border:none; padding:12px 28px; border-radius:40px; font-family:'Nunito',sans-serif; font-weight:800; font-size:0.95rem; cursor:pointer;">Send Another Message</button>
+        </div>
+        <!-- ERROR STATE -->
+        <div id="form-error" style="display:none; background:#fff0f0; border:2px solid var(--coral); border-radius:12px; padding:14px 18px; margin-bottom:16px; color:var(--coral); font-weight:700; font-size:0.88rem;">
+          ⚠️ Something went wrong. Please try again or contact us directly.
+        </div>
+        <!-- FORM -->
+        <form id="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student Name *</label>
+              <input type="text" name="student_name" id="f-name" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+              <label>Class / Standard *</label>
+              <select name="class" id="f-class" required>
+                <option value="">Select Class</option>
+                <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+                <option>Class 4</option><option>Class 5</option><option>Class 6</option>
+                <option>Class 7</option><option>Class 8</option><option>Class 9</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Parent / Guardian Name</label>
+            <input type="text" name="parent_name" id="f-parent" placeholder="Parent name">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="email" id="f-email" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" name="phone" id="f-phone" placeholder="+91 XXXXX XXXXX">
+          </div>
+          <div class="form-group">
+            <label>Message / Subjects of Interest</label>
+            <textarea name="message" id="f-msg" placeholder="Tell us which subjects you're looking for help with..."></textarea>
+          </div>
+          <button type="submit" class="submit-btn" id="submit-btn">
+            <span id="btn-text">✉️ Send Enquiry</span>
+            <span id="btn-loader" style="display:none;">⏳ Sending...</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-
-© 2026 TTC Wardha – Tushar Tuition Classes
-
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="https://i.ibb.co/dsBdtCwK/Ttc-logo.png" alt="TTC" onerror="this.style.display='none'">
+        <h3>Tushar Tuition Classes</h3>
+        <p>Empowering students in Wardha with quality education, expert teachers, and a nurturing environment since day one.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#subjects">Subjects</a>
+        <a href="#teachers">Our Teachers</a>
+        <a href="#classes">Classes</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Enroll Now</a>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <a href="#">📍 Wardha, Maharashtra</a>
+        <a href="#">⏰ 4 PM – 8 PM</a>
+        <a href="#">📚 Class 1 to 9</a>
+        <a href="#">👩‍🏫 3 Expert Teachers</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TTC Wardha – Tushar Tuition Classes. All rights reserved.</span>
+      <span>Made with <span class="footer-heart">♥</span> for learning</span>
+    </div>
+  </div>
 </footer>
 
+<!-- ── FIXED FAB BUTTONS ── -->
+<div class="fab-wrap">
+  <!-- WhatsApp -->
+  <a class="fab fab-wa" href="https://wa.me/917517445450" target="_blank" rel="noopener" title="Chat on WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="28" height="28">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    <span class="fab-label">WhatsApp Us</span>
+  </a>
+  <!-- Google Maps -->
+  <a class="fab fab-map" href="https://maps.app.goo.gl/fL8MtRx7jBA9QqHu9" target="_blank" rel="noopener" title="Find us on Maps">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#EA4335"/>
+    </svg>
+    <span class="fab-label">Get Directions</span>
+  </a>
+</div>
+
+<style>
+.fab-wrap {
+  position: fixed; bottom: 24px; right: 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  z-index: 999;
+}
+.fab {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  text-decoration: none; transition: all .25s;
+  position: relative;
+  cursor: pointer;
+}
+.fab svg { width: 30px; height: 30px; }
+.fab:hover { transform: scale(1.12); box-shadow: 0 10px 32px rgba(0,0,0,0.28); }
+.fab-wa { background: #25D366; }
+.fab-map { background: #fff; }
+
+/* Tooltip label */
+.fab-label {
+  position: absolute; right: 66px;
+  background: #1a1a2e; color: #fff;
+  font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 700;
+  padding: 5px 12px; border-radius: 20px; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transform: translateX(8px);
+  transition: opacity .2s, transform .2s;
+}
+.fab:hover .fab-label { opacity: 1; transform: translateX(0); }
+
+/* Pulse ring on WhatsApp */
+.fab-wa::before {
+  content: ''; position: absolute;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(37,211,102,0.4);
+  animation: wa-pulse 2s ease-out infinite;
+}
+@keyframes wa-pulse {
+  0%   { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+</style>
+
+<script>
+// ── NAVBAR ──
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ── FAQ ACCORDION ──
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// ── SCROLL REVEALS ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── SUBJECT PILLS STAGGER ──
+const pills = document.querySelectorAll('.subject-pill');
+const pillObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    pills.forEach((pill, i) => setTimeout(() => pill.classList.add('visible'), i * 60));
+    pillObserver.disconnect();
+  }
+}, { threshold: 0.1 });
+if (pills.length) pillObserver.observe(pills[0].closest('.subjects-grid'));
+
+// ── TEACHER CARDS STAGGER ──
+const tcards = document.querySelectorAll('.teacher-card');
+const cardObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    tcards.forEach((card, i) => setTimeout(() => card.classList.add('visible'), i * 150));
+    cardObserver.disconnect();
+  }
+}, { threshold: 0.1 });
+if (tcards.length) cardObserver.observe(tcards[0].closest('.teachers-grid'));
+
+// ── DEVICE TILT ──
+const device = document.querySelector('.device');
+if (device) {
+  window.addEventListener('scroll', () => {
+    const progress = Math.max(0, Math.min(1, 1 - device.getBoundingClientRect().top / window.innerHeight));
+    device.style.transform = `perspective(1200px) rotateX(${8 - progress * 8}deg)`;
+  });
+}
+
+// ── ELFSIGHT PLACEHOLDER HIDE ──
+setTimeout(() => {
+  const widget = document.querySelector('.elfsight-app-e87fdd6e-f4b8-4807-89b4-ecc80ca4f3c0');
+  const placeholder = document.getElementById('review-placeholder');
+  if (widget && placeholder && widget.innerHTML.trim().length > 80) {
+    placeholder.style.transition = 'opacity 0.5s';
+    placeholder.style.opacity = '0';
+    setTimeout(() => placeholder.style.display = 'none', 500);
+  }
+}, 5000);
+
+// ── FORMSPREE AJAX ──
+function resetForm() {
+  document.getElementById('form-success').style.display = 'none';
+  document.getElementById('contact-form').style.display = 'block';
+  document.getElementById('contact-form').reset();
+}
+
+const form = document.getElementById('contact-form');
+if (form) {
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btnText   = document.getElementById('btn-text');
+    const btnLoader = document.getElementById('btn-loader');
+    const submitBtn = document.getElementById('submit-btn');
+    const successDiv = document.getElementById('form-success');
+    const errorDiv   = document.getElementById('form-error');
+
+    btnText.style.display = 'none';
+    btnLoader.style.display = 'inline';
+    submitBtn.disabled = true;
+    errorDiv.style.display = 'none';
+
+    const payload = {
+      student_name: document.getElementById('f-name').value,
+      parent_name:  document.getElementById('f-parent').value,
+      email:        document.getElementById('f-email').value,
+      phone:        document.getElementById('f-phone').value,
+      class:        document.getElementById('f-class').value,
+      message:      document.getElementById('f-msg').value,
+    };
+
+    try {
+      const res = await fetch('https://formspree.io/f/mwvrlqqd', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const json = await res.json();
+      if (res.ok) {
+        form.style.display = 'none';
+        successDiv.style.display = 'block';
+      } else {
+        throw new Error(json.error || 'Submission failed');
+      }
+    } catch (err) {
+      errorDiv.style.display = 'block';
+      errorDiv.textContent = '⚠️ ' + (err.message || 'Something went wrong. Please try again.');
+    } finally {
+      btnText.style.display = 'inline';
+      btnLoader.style.display = 'none';
+      submitBtn.disabled = false;
+    }
+  });
+}
+</script>
 </body>
 </html>
