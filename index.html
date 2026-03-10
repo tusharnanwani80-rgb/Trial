@@ -1,277 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TTC \u2013 Contact & Reviews</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <script src="https://elfsightcdn.com/platform.js" async></script>
-  <style>
-    :root {
-      --bg:       #0d1117;
-      --surface:  #161b24;
-      --border:   #2a3140;
-      --gold:     #c9a84c;
-      --gold-lt:  #e6c97a;
-      --text:     #e8e2d6;
-      --muted:    #7a8499;
-      --white:    #f5f2ec;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<title>TTC - Tushar Tuition Classes</title>
 
-    html { scroll-behavior: smooth; }
+<style>
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
+body{
+font-family: Arial, sans-serif;
+margin:0;
+background:#f5f7fb;
+text-align:center;
+}
 
-    /* \u2500\u2500 GRAIN OVERLAY \u2500\u2500 */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.45;
-    }
+header{
+padding:20px;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
 
-    /* \u2500\u2500 HEADER \u2500\u2500 */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 900;
-      background: rgba(13, 17, 23, 0.88);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 72px;
-    }
+.logo{
+width:120px;
+}
 
-    .logo-wrap img {
-      height: 48px;
-      width: auto;
-      display: block;
-      object-fit: contain;
-    }
+h1{
+margin:10px 0;
+color:#333;
+}
 
-    nav { display: flex; gap: 2rem; align-items: center; }
+.container{
+max-width:800px;
+margin:auto;
+padding:20px;
+}
 
-    nav a {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.85rem;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: color 0.25s;
-    }
-    nav a:hover { color: var(--gold); }
+.card{
+background:white;
+padding:25px;
+margin-top:20px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
 
-    /* \u2500\u2500 HERO \u2500\u2500 */
-    .hero {
-      position: relative;
-      min-height: 380px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 6vw, 4rem) 3rem;
-      overflow: hidden;
-    }
+input,textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:16px;
+}
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 55% at 50% 10%, rgba(201,168,76,0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 80% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
-      pointer-events: none;
-    }
+button{
+background:#ff6b6b;
+border:none;
+color:white;
+padding:12px 20px;
+margin-top:15px;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
 
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.2rem;
-      animation: fadeUp 0.7s ease both;
-    }
-    .hero-eyebrow::before,
-    .hero-eyebrow::after {
-      content: '';
-      display: block;
-      width: 28px;
-      height: 1px;
-      background: var(--gold);
-      opacity: 0.6;
-    }
+button:hover{
+background:#ff4b4b;
+}
 
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
-      font-weight: 700;
-      line-height: 1.15;
-      color: var(--white);
-      max-width: 700px;
-      animation: fadeUp 0.7s 0.1s ease both;
-    }
+.faq{
+text-align:left;
+margin-top:20px;
+}
 
-    .hero h1 span { color: var(--gold); }
+.faq details{
+margin-bottom:10px;
+background:#fafafa;
+padding:12px;
+border-radius:6px;
+cursor:pointer;
+}
 
-    .hero p {
-      margin-top: 1.2rem;
-      color: var(--muted);
-      max-width: 480px;
-      font-size: 1rem;
-      animation: fadeUp 0.7s 0.2s ease both;
-    }
+footer{
+margin-top:40px;
+padding:15px;
+font-size:14px;
+color:#777;
+}
 
-    .hero-cta {
-      margin-top: 2rem;
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeUp 0.7s 0.3s ease both;
-    }
+</style>
 
-    .btn-gold {
-      padding: 0.75rem 2rem;
-      background: var(--gold);
-      color: #0d1117;
-      font-family: 'Jost', sans-serif;
-      font-weight: 500;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: background 0.25s, transform 0.2s;
-    }
-    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
+</head>
 
-    .btn-outline {
-      padding: 0.75rem 2rem;
-      background: transparent;
-      color: var(--gold);
-      font-family: 'Jost', sans-serif;
-      font-weight: 500;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: 1px solid var(--gold);
-      cursor: pointer;
-      transition: background 0.25s, color 0.25s, transform 0.2s;
-    }
-    .btn-outline:hover { background: rgba(201,168,76,0.12); transform: translateY(-2px); }
+<body>
 
-    /* \u2500\u2500 DIVIDER \u2500\u2500 */
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--border) 30%, var(--border) 70%, transparent);
-    }
+<header>
 
-    /* \u2500\u2500 SECTION WRAPPER \u2500\u2500 */
-    .section {
-      padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 6vw, 5rem);
-      max-width: 1160px;
-      margin: 0 auto;
-    }
+<img src="https://i.ibb.co/dsBdtCwK/Ttc-logo.png" class="logo">
 
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.8rem;
-    }
-    .section-label::before {
-      content: '';
-      display: block;
-      width: 18px;
-      height: 1px;
-      background: var(--gold);
-    }
+<h1>Tushar Tuition Classes</h1>
 
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.9rem, 4vw, 2.8rem);
-      font-weight: 500;
-      color: var(--white);
-      line-height: 1.2;
-      margin-bottom: 0.5rem;
-    }
+<p>Helping Students Learn Better</p>
 
-    .section-sub {
-      color: var(--muted);
-      font-size: 0.95rem;
-      max-width: 500px;
-      margin-bottom: 3rem;
-    }
+</header>
 
-    /* \u2500\u2500 REVIEWS \u2500\u2500 */
-    .reviews-bg {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
 
-    .elfsight-app-e87fdd6e-f4b8-4807-89b4-ecc80ca4f3c0 {
-      --efw-color-primary: #c9a84c !important;
-    }
+<div class="container">
 
-    /* \u2500\u2500 CONTACT \u2500\u2500 */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: clamp(2rem, 5vw, 5rem);
-      align-items: start;
-    }
+<div class="card">
 
-    @media (max-width: 768px) {
-      .contact-grid { grid-template-columns: 1fr; }
-    }
+<h2>Contact Us</h2>
 
-    .contact-info h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 500;
-      color: var(--white);
-      margin-bottom: 1rem;
-    }
+<form action="https://formspree.io/f/mwvrlqqd" method="POST">
 
-    .contact-info p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 2rem;
-    }
+<input type="text" name="name" placeholder="Student Name" required>
 
-    .info-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 1.4rem;
-    }
+<input type="email" name="email" placeholder="Email">
 
-    .info-icon
+<textarea name="message" placeholder="Your Message"></textarea>
+
+<button type="submit">Send Message</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h2>Parent Reviews</h2>
+
+<!-- Elfsight Google Reviews -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
+<div class="elfsight-app-e87fdd6e-f4b8-4807-89b4-ecc80ca4f3c0" data-elfsight-app-lazy></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Frequently Asked Questions</h2>
+
+<div class="faq">
+
+<details>
+<summary>Which classes do you teach?</summary>
+<p>We teach students from Class 1st to Class 9th.</p>
+</details>
+
+<details>
+<summary>Which subjects are covered?</summary>
+<p>Maths, English, Science, SST, Hindi, Marathi, GK and MS.</p>
+</details>
+
+<details>
+<summary>What are the tuition timings?</summary>
+<p>Classes run between 4 PM to 8 PM.</p>
+</details>
+
+<details>
+<summary>How can I enroll my child?</summary>
+<p>You can contact us using the form above or visit our tuition center.</p>
+</details>
+
+</div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+© 2026 Tushar Tuition Classes (TTC)
+
+</footer>
+
+</body>
+</html>
