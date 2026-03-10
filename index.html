@@ -1,494 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TTC Quiz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FAQ Accordion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f0ea;
+      font-family: 'DM Sans', sans-serif;
+      padding: 2rem;
+    }
 
-<style>
+    .accordion {
+      width: 100%;
+      max-width: 560px;
+    }
 
-body{
-margin:0;
-font-family:"Segoe UI",sans-serif;
-background:#f7f6fa;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-}
+    .accordion-item {
+      border-bottom: 1px solid #c9bfb0;
+      overflow: hidden;
+    }
 
-.app{
-width:400px;
-max-width:95%;
-}
+    .accordion-item:first-child {
+      border-top: 1px solid #c9bfb0;
+    }
 
-.card{
-background:white;
-padding:25px;
-border-radius:20px;
-box-shadow:0 15px 35px rgba(0,0,0,0.15);
-text-align:center;
-}
+    .accordion-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.4rem 0;
+      text-align: left;
+      color: #1a1208;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: color 0.3s ease;
+    }
 
-.logo{
-width:85px;
-margin-bottom:10px;
-}
+    .accordion-trigger:hover { color: #7a5c3a; }
 
-.option{
-background:#f3f3f3;
-margin:8px 0;
-padding:12px;
-border-radius:12px;
-cursor:pointer;
-transition:0.25s;
-}
+    .accordion-trigger:hover .icon-wrap { background: #7a5c3a; }
 
-.option:hover{transform:scale(1.04)}
+    .icon-wrap {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #1a1208;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
 
-.correct{background:#c8f7c5}
-.wrong{background:#ffd0d0}
+    .accordion-item.open .icon-wrap {
+      transform: rotate(45deg);
+      background: #7a5c3a;
+    }
 
-.hidden{display:none}
+    .icon-wrap svg {
+      width: 14px;
+      height: 14px;
+      stroke: #f5f0ea;
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+    }
 
-button{
-padding:12px 22px;
-border:none;
-border-radius:30px;
-cursor:pointer;
-font-size:15px;
-}
+    .accordion-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-.primary{
-background:#4fd1c5;
-color:white;
-}
+    .accordion-item.open .accordion-body {
+      grid-template-rows: 1fr;
+    }
 
-.share{
-background:#25D366;
-color:white;
-margin-top:10px;
-}
+    .accordion-inner {
+      overflow: hidden;
+    }
 
-.rating{
-background:#6c63ff;
-color:white;
-margin-top:10px;
-position:relative;
-overflow:hidden;
-}
+    .accordion-content {
+      padding: 0 0 1.4rem 0;
+      color: #5c4d3a;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      font-weight: 300;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+    }
 
-.progress{
-height:8px;
-background:#eee;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-.bar{
-height:8px;
-background:#4fd1c5;
-width:0%;
-border-radius:10px;
-transition:0.4s;
-}
-
-.explanation{
-font-size:14px;
-margin-top:10px;
-color:#555;
-}
-
-.star{
-position:absolute;
-color:gold;
-font-size:12px;
-animation:starburst 800ms forwards;
-pointer-events:none;
-}
-
-@keyframes starburst{
-0%{opacity:1;transform:translate(0,0) scale(1)}
-100%{opacity:0;transform:translate(var(--x),var(--y)) scale(0)}
-}
-
-</style>
+    .accordion-item.open .accordion-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="app">
-
-<div id="nameScreen" class="card">
-
-<img src="https://i.ibb.co/dsBdtCwK/Ttc-logo.png" class="logo">
-
-<h3>Enter Your Name</h3>
-
-<input id="username" placeholder="Your name"
-style="padding:10px;width:90%;border-radius:8px;border:1px solid #ccc">
-
-<br><br>
-
-<button class="primary" onclick="startWelcome()">Continue</button>
-
-</div>
-
-
-<div id="welcomeScreen" class="card hidden">
-
-<img src="https://i.ibb.co/dsBdtCwK/Ttc-logo.png" class="logo">
-
-<h2 id="welcomeText"></h2>
-
-<div>English – Tenses Quiz</div>
-
-<br>
-
-<button class="primary" onclick="startQuiz()">Start Quiz</button>
-
-</div>
-
-
-<div id="quizScreen" class="card hidden">
-
-<img src="https://i.ibb.co/dsBdtCwK/Ttc-logo.png" class="logo">
-
-<div class="progress">
-<div class="bar" id="progressBar"></div>
-</div>
-
-<h3 id="question"></h3>
-
-<div id="options"></div>
-
-<div id="explanation" class="explanation"></div>
-
-<br>
-
-<button id="nextBtn" class="primary hidden" onclick="nextQuestion()">
-Next Question
-</button>
-
-</div>
-
-
-<div id="resultScreen" class="card hidden">
-
-<img src="https://i.ibb.co/dsBdtCwK/Ttc-logo.png" class="logo">
-
-<h2 id="scoreText"></h2>
-
-<div id="message"></div>
-
-<br>
-
-<button class="share" onclick="shareWhatsApp()">Share on WhatsApp</button>
-
-<button id="ratingBtn" class="rating">
-Click Me
-</button>
-
-<br><br>
-
-<button class="primary" onclick="restartQuiz()">Restart Quiz</button>
-
-<br><br>
-
-<script src="https://elfsightcdn.com/platform.js" async></script>
-<div class="elfsight-app-e87fdd6e-f4b8-4807-89b4-ecc80ca4f3c0" data-elfsight-app-lazy></div>
-
-</div>
-
-</div>
-
-<!-- Hidden certificate canvas -->
-<canvas id="certificateCanvas" width="800" height="500" style="display:none"></canvas>
-
-<script>
-
-const subjectName="English"
-const chapterName="Tenses"
-
-let username=localStorage.getItem("ttc_name") || ""
-
-if(username){
-document.getElementById("username").value=username
-}
-
-const quizData=[
-{
-question:"She ____ to school every day.",
-options:["go","goes","going","gone"],
-correctIndex:1,
-explanation:"'She' is third person singular, so we use 'goes'."
-},
-{
-question:"I ____ my homework yesterday.",
-options:["did","do","done","doing"],
-correctIndex:0,
-explanation:"'Yesterday' indicates past tense."
-},
-{
-question:"They ____ playing football.",
-options:["is","am","are","be"],
-correctIndex:2,
-explanation:"Plural subject requires 'are'."
-},
-{
-question:"We ____ dinner now.",
-options:["eat","eats","are eating","ate"],
-correctIndex:2,
-explanation:"'Now' indicates present continuous."
-},
-{
-question:"He ____ a movie tomorrow.",
-options:["watch","watched","will watch","watching"],
-correctIndex:2,
-explanation:"Future tense uses 'will watch'."
-}
-]
-
-let questions=[]
-let index=0
-let score=0
-
-function shuffle(arr){
-return arr.sort(()=>Math.random()-0.5)
-}
-
-function startWelcome(){
-
-username=document.getElementById("username").value
-
-if(!username)return
-
-localStorage.setItem("ttc_name",username)
-
-document.getElementById("nameScreen").classList.add("hidden")
-document.getElementById("welcomeScreen").classList.remove("hidden")
-
-document.getElementById("welcomeText").innerText=
-"Welcome, TTC Champ "+username
-
-}
-
-function startQuiz(){
-
-document.getElementById("welcomeScreen").classList.add("hidden")
-document.getElementById("quizScreen").classList.remove("hidden")
-
-questions=shuffle([...quizData])
-
-loadQuestion()
-
-}
-
-function loadQuestion(){
-
-let q=questions[index]
-
-document.getElementById("question").innerText=q.question
-
-let opts=shuffle([...q.options])
-
-let container=document.getElementById("options")
-container.innerHTML=""
-
-opts.forEach(opt=>{
-
-let div=document.createElement("div")
-
-div.className="option"
-div.innerText=opt
-
-div.onclick=()=>selectOption(div,opt,q)
-
-container.appendChild(div)
-
-})
-
-document.getElementById("explanation").innerText=""
-document.getElementById("nextBtn").classList.add("hidden")
-
-document.getElementById("progressBar").style.width=
-(index/questions.length*100)+"%"
-
-}
-
-function selectOption(el,opt,q){
-
-let options=document.querySelectorAll(".option")
-
-options.forEach(o=>o.onclick=null)
-
-let correct=q.options[q.correctIndex]
-
-if(opt===correct){
-
-el.classList.add("correct")
-score++
-
-confetti({particleCount:80,spread:60})
-
-}else{
-
-el.classList.add("wrong")
-
-options.forEach(o=>{
-if(o.innerText===correct) o.classList.add("correct")
-})
-
-}
-
-document.getElementById("explanation").innerText=
-"Explanation: "+q.explanation
-
-document.getElementById("nextBtn").classList.remove("hidden")
-
-}
-
-function nextQuestion(){
-
-index++
-
-if(index>=questions.length){
-showResult()
-return
-}
-
-loadQuestion()
-
-}
-
-function showResult(){
-
-document.getElementById("quizScreen").classList.add("hidden")
-document.getElementById("resultScreen").classList.remove("hidden")
-
-document.getElementById("scoreText").innerText=
-score+" / "+questions.length
-
-let percent=(score/questions.length)*100
-
-let feedback=""
-
-if(percent>=90) feedback="Excellent performance!"
-else if(percent>=75) feedback="Very Good!"
-else if(percent>=50) feedback="Needs Practice."
-else feedback="Revise the chapter."
-
-document.getElementById("message").innerText=
-feedback+" Well done "+username+"!"
-
-confetti({particleCount:200,spread:120})
-
-generateCertificate()
-
-}
-
-function generateCertificate(){
-
-let canvas=document.getElementById("certificateCanvas")
-let ctx=canvas.getContext("2d")
-
-ctx.fillStyle="#ffffff"
-ctx.fillRect(0,0,800,500)
-
-ctx.strokeStyle="#4fd1c5"
-ctx.lineWidth=8
-ctx.strokeRect(20,20,760,460)
-
-ctx.font="bold 40px Arial"
-ctx.textAlign="center"
-ctx.fillText("Tushar Tuition Classes",400,120)
-
-ctx.font="28px Arial"
-ctx.fillText("Quiz Achievement",400,170)
-
-ctx.font="24px Arial"
-ctx.fillText("Student: "+username,400,250)
-
-ctx.fillText("Subject: "+subjectName,400,290)
-
-ctx.fillText("Chapter: "+chapterName,400,330)
-
-ctx.font="bold 30px Arial"
-ctx.fillText("Score: "+score+"/"+questions.length,400,400)
-
-let logo=new Image()
-logo.src="https://i.ibb.co/dsBdtCwK/Ttc-logo.png"
-
-logo.onload=function(){
-ctx.drawImage(logo,350,30,100,80)
-}
-
-}
-
-function shareWhatsApp(){
-
-let canvas=document.getElementById("certificateCanvas")
-
-let image=canvas.toDataURL("image/png")
-
-let link=document.createElement("a")
-link.href=image
-link.download="TTC_Quiz_Certificate.png"
-link.click()
-
-let message=
-`TTC Quiz Result
-
-Student Name: ${username}
-
-Subject: ${subjectName}
-
-Chapter: ${chapterName}
-
-Quiz Score: ${score}/${questions.length}`
-
-let url="https://wa.me/?text="+encodeURIComponent(message)
-
-window.open(url)
-
-}
-
-function restartQuiz(){
-location.reload()
-}
-
-document.getElementById("ratingBtn").addEventListener("click",function(e){
-
-for(let i=0;i<12;i++){
-
-let star=document.createElement("div")
-star.className="star"
-star.innerText="★"
-
-let x=(Math.random()*120-60)+"px"
-let y=(Math.random()*-120)+"px"
-
-star.style.setProperty("--x",x)
-star.style.setProperty("--y",y)
-
-star.style.left="50%"
-star.style.top="50%"
-
-this.appendChild(star)
-
-setTimeout(()=>star.remove(),800)
-
-}
-
-setTimeout(()=>{
-window.open("https://g.page/r/CdUkswJ0ZulAEBE/review")
-},300)
-
-})
-
-</script>
+  <div class="accordion" id="accordion">
+
+    <div class="accordion-item open" data-value="shipping">
+      <button class="accordion-trigger" aria-expanded="true">
+        What are your shipping options?
+        <span class="icon-wrap">
+          <svg viewBox="0 0 14 14"><line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/></svg>
+        </span>
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="accordion-content">
+            We offer standard (5–7 days), express (2–3 days), and overnight shipping. Free shipping on international orders.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" data-value="returns">
+      <button class="accordion-trigger" aria-expanded="false">
+        What is your return policy?
+        <span class="icon-wrap">
+          <svg viewBox="0 0 14 14"><line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/></svg>
+        </span>
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="accordion-content">
+            Returns accepted within 30 days. Items must be unused and in original packaging. Refunds processed within 5–7 business days.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" data-value="support">
+      <button class="accordion-trigger" aria-expanded="false">
+        How can I contact customer support?
+        <span class="icon-wrap">
+          <svg viewBox="0 0 14 14"><line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/></svg>
+        </span>
+      </button>
+      <div class="accordion-body">
+        <div class="accordion-inner">
+          <p class="accordion-content">
+            Reach us via email, live chat, or phone. We respond within 24 hours during business days.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const items = document.querySelectorAll('.accordion-item');
+
+    items.forEach(item => {
+      const trigger = item.querySelector('.accordion-trigger');
+      trigger.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        items.forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.accordion-trigger').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  </script>
 
 </body>
-  </html>
+</html>
